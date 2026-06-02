@@ -11,7 +11,7 @@ export const seedRoles = async (dataSource: DataSource) => {
   const roles = [
     { name: 'superadmin', displayName: 'Super Admin' },
     { name: 'admin', displayName: 'Administrator' },
-    { name: 'cashier', displayName: 'Cashier' },
+    { name: 'staff', displayName: 'Staff' },
   ];
 
   for (const r of roles) {
@@ -44,33 +44,8 @@ export const seedRoles = async (dataSource: DataSource) => {
           ),
         },
       });
-    } else if (role.name === 'cashier') {
-      // Cashier gets POS and Sales related permissions
-      permissionsToAssign = await permissionRepo.find({
-        where: [
-          { name: In(['customer:view', 'customer:all']) },
-          { group: 'Sale Order Management' },
-          { group: 'Sale Invoice Management' },
-          { group: 'Sale Payment Management' },
-          { group: 'Sale Return Management' },
-          { group: 'Sale Quotation Management' },
-          { group: 'Transaction Management' },
-          { name: In(['product:all', 'product:view']) },
-          {
-            name: In([
-              'category:all',
-              'category:view',
-              'brand:all',
-              'brand:view',
-              'unit:all',
-              'unit:view',
-              'discount:all',
-              'discount:view',
-              'currency:all',
-            ]),
-          },
-        ],
-      });
+    } else if (role.name === 'staff') {
+      return;
     }
 
     // Sync role-permissions

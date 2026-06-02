@@ -34,21 +34,9 @@ export const seedUsers = async (dataSource: DataSource) => {
       role: adminRole,
     },
     {
-      username: 'cashier1',
-      email: 'cashier1@gmail.com',
-      plainPassword: 'cashier123',
-      role: cashierRole,
-    },
-    {
-      username: 'cashier2',
-      email: 'cashier2@gmail.com',
-      plainPassword: 'cashier123',
-      role: cashierRole,
-    },
-    {
-      username: 'cashier3',
-      email: 'cashier3@gmail.com',
-      plainPassword: 'cashier123',
+      username: 'staff',
+      email: 'staff@gmail.com',
+      plainPassword: 'staff123',
       role: cashierRole,
     },
   ];
