@@ -3,8 +3,8 @@ import { INestApplication } from '@nestjs/common';
 
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('Stock POS API')
-    .setDescription('The Stock and Point of Sale API description')
+    .setTitle('HRM System API')
+    .setDescription('Human Resource Management System API documentation')
     .setVersion('1.0')
     .addBearerAuth(
       {

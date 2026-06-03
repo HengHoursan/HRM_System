@@ -153,4 +153,37 @@ export const seedPermissions = async (dataSource: DataSource) => {
       sort: 4,
     },
   ]);
+  // Branch Management
+  await seedPermissionsByGroup(dataSource, [
+    {
+      name: 'branch:all',
+      displayName: 'All Branch',
+      group: 'Branch Management',
+      sort: 1,
+    },
+    {
+      name: 'branch:view',
+      displayName: 'View Branches',
+      group: 'Branch Management',
+      sort: 2,
+    },
+    {
+      name: 'branch:create',
+      displayName: 'Create Branches',
+      group: 'Branch Management',
+      sort: 3,
+    },
+    {
+      name: 'branch:update',
+      displayName: 'Update Branches',
+      group: 'Branch Management',
+      sort: 4,
+    },
+    {
+      name: 'branch:delete',
+      displayName: 'Delete Branches',
+      group: 'Branch Management',
+      sort: 5,
+    },
+  ]);
 };

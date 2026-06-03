@@ -1,12 +1,11 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import {
   BaseEntity,
-  SoftDeleteEntity,
 } from '../../../common/entity/base.entity';
 import { Role } from '../../role/entity/role.entity';
 
 @Entity('users')
-export class User extends SoftDeleteEntity {
+export class User extends BaseEntity {
   @Column({ unique: true })
   username: string;
 

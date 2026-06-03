@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { BranchModule } from '../branch/branch.module';
 import { ActivityLogModule } from '../activity_log/activity_log.module';
 import { UserModule } from '../user/user.module';
 import { RoleModule } from '../role/role.module';
@@ -22,6 +23,7 @@ import { UploadModule } from '../upload/upload.module';
     TokenBlacklistModule,
     UploadModule,
     ActivityLogModule,
+    BranchModule,
   ],
   exports: [
     UserModule,
@@ -34,6 +36,7 @@ import { UploadModule } from '../upload/upload.module';
     TokenBlacklistModule,
     UploadModule,
     ActivityLogModule,
+    BranchModule,
   ],
 })
 export class CoreModule {}

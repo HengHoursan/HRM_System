@@ -1,12 +1,11 @@
 import { Entity, Column, OneToMany } from 'typeorm';
 import {
   BaseEntity,
-  SoftDeleteEntity,
 } from '../../../common/entity/base.entity';
 import { RolePermission } from '../../role_permission/entity/role_permission.entity';
 
 @Entity('permissions')
-export class Permission extends SoftDeleteEntity {
+export class Permission extends BaseEntity {
   @Column({ unique: true })
   name: string;
 

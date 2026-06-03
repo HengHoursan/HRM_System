@@ -21,9 +21,7 @@ export abstract class BaseEntity {
 
   @Column({ name: 'updated_by', type: 'int', nullable: true })
   updatedBy: number | null;
-}
 
-export abstract class SoftDeleteEntity extends BaseEntity {
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp', nullable: true })
   deletedAt: Date | null;
 
