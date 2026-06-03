@@ -56,18 +56,12 @@ export const seedUsers = async (dataSource: DataSource) => {
         role: data.role,
       });
       await userRepo.save(newUser);
-      console.log(
-        `✅ User created: ${data.username} (password: ${data.plainPassword})`,
-      );
     } else {
       // Update role, email and reset password to match seed
       user.role = data.role;
       user.email = data.email;
       user.password = hashedPassword;
       await userRepo.save(user);
-      console.log(
-        `✅ User updated: ${data.username} (password reset to: ${data.plainPassword})`,
-      );
     }
   }
 
