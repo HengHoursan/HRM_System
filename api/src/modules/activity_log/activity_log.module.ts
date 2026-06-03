@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ActivityLogService } from './activity_log.service';
-import { ActivityLogController } from './activity_log.controller';
+import { ActivityLogService } from './service/activity_log.service';
+import { ActivityLogController } from './controller/activity_log.controller';
 import { ActivityLog } from './entity/activity_log.entity';
 
 @Module({
