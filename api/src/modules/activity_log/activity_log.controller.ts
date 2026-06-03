@@ -1,11 +1,8 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
   Param,
-  Delete,
 } from '@nestjs/common';
 import { ActivityLogService } from './activity_log.service';
 import { CreateActivityLogDto } from './dto/create_activity_log.dto';
@@ -15,22 +12,22 @@ import { UpdateActivityLogDto } from './dto/update_activity_log.dto';
 export class ActivityLogController {
   constructor(private readonly activityLogService: ActivityLogService) {}
 
-  @Post()
+  @Post('create')
   create(@Body() createActivityLogDto: CreateActivityLogDto) {
     return this.activityLogService.create(createActivityLogDto);
   }
 
-  @Get()
+  @Post('all')
   findAll() {
     return this.activityLogService.findAll();
   }
 
-  @Get(':id')
+  @Post('detail/:id')
   findOne(@Param('id') id: string) {
     return this.activityLogService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Post('update/:id')
   update(
     @Param('id') id: string,
     @Body() updateActivityLogDto: UpdateActivityLogDto,
@@ -38,7 +35,7 @@ export class ActivityLogController {
     return this.activityLogService.update(+id, updateActivityLogDto);
   }
 
-  @Delete(':id')
+  @Post('delete/:id')
   remove(@Param('id') id: string) {
     return this.activityLogService.remove(+id);
   }
