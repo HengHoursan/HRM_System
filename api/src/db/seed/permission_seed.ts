@@ -153,6 +153,39 @@ export const seedPermissions = async (dataSource: DataSource) => {
       sort: 4,
     },
   ]);
+  //Activity Log
+  await seedPermissionsByGroup(dataSource, [
+    {
+      name: 'activity-log:all',
+      displayName: 'All Activity Log',
+      group: 'Activity Log',
+      sort: 1,
+    },
+    {
+      name: 'activity-log:view',
+      displayName: 'View Activity Logs',
+      group: 'Activity Log',
+      sort: 2,
+    },
+    {
+      name: 'activity-log:create',
+      displayName: 'Create Activity Logs',
+      group: 'Activity Log',
+      sort: 3,
+    },
+    {
+      name: 'activity-log:update',
+      displayName: 'Update Activity Logs',
+      group: 'Activity Log',
+      sort: 4,
+    },
+    {
+      name: 'activity-log:delete',
+      displayName: 'Delete Activity Logs',
+      group: 'Activity Log',
+      sort: 5,
+    },
+  ]);
   // Branch Management
   await seedPermissionsByGroup(dataSource, [
     {
