@@ -3,8 +3,10 @@ import { Permissions } from '@/common/security/decorator/permissions.decorator';
 import { CurrentUser } from '@/common/security/decorator/current_user.decorator';
 import { ApiResponse, IdRequest } from '@/common/dto';
 import { ActivityLogService } from '../service/activity_log.service';
-import { CreateActivityLogDto } from '../dto/request/create_activity_log.request';
-import { UpdateActivityLogDto } from '../dto/request/update_activity_log.request';
+import {
+  CreateActivityLogDto,
+  UpdateActivityLogDto,
+} from '@/modules/activity_log/dto';
 
 @Controller('activity-log')
 export class ActivityLogController {
@@ -24,14 +26,20 @@ export class ActivityLogController {
   @Permissions('activity_log:view')
   async all() {
     const result = await this.activityLogService.findAll();
-    return ApiResponse.success(result, 'Activity log list retrieved successfully');
+    return ApiResponse.success(
+      result,
+      'Activity log list retrieved successfully',
+    );
   }
 
   @Post('detail')
   @Permissions('activity_log:view')
   async detail(@Body() dto: IdRequest) {
     const result = await this.activityLogService.findOne(dto.id);
-    return ApiResponse.success(result, 'Activity log detail retrieved successfully');
+    return ApiResponse.success(
+      result,
+      'Activity log detail retrieved successfully',
+    );
   }
 
   @Post('update')
