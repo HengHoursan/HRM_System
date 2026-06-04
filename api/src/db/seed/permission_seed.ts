@@ -219,4 +219,37 @@ export const seedPermissions = async (dataSource: DataSource) => {
       sort: 5,
     },
   ]);
+  // Shift Management
+  await seedPermissionsByGroup(dataSource, [
+    {
+      name: 'shift:all',
+      displayName: 'All Shift',
+      group: 'Shift Management',
+      sort: 1,
+    },
+    {
+      name: 'shift:view',
+      displayName: 'View Shifts',
+      group: 'Shift Management',
+      sort: 2,
+    },
+    {
+      name: 'shift:create',
+      displayName: 'Create Shifts',
+      group: 'Shift Management',
+      sort: 3,
+    },
+    {
+      name: 'shift:update',
+      displayName: 'Update Shifts',
+      group: 'Shift Management',
+      sort: 4,
+    },
+    {
+      name: 'shift:delete',
+      displayName: 'Delete Shifts',
+      group: 'Shift Management',
+      sort: 5,
+    },
+  ]);
 };

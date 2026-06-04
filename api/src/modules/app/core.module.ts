@@ -10,6 +10,7 @@ import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 import { JwtModule } from '../jwt/jwt.module';
 import { TokenBlacklistModule } from '../token_blacklist/token_blacklist.module';
 import { UploadModule } from '../upload/upload.module';
+import { ShiftModule } from '@/shift/shift.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UploadModule } from '../upload/upload.module';
     UploadModule,
     ActivityLogModule,
     BranchModule,
+    ShiftModule
   ],
   exports: [
     UserModule,
@@ -37,6 +39,7 @@ import { UploadModule } from '../upload/upload.module';
     UploadModule,
     ActivityLogModule,
     BranchModule,
+    ShiftModule
   ],
 })
 export class CoreModule {}

@@ -13,6 +13,7 @@ import {
   PaginationRequest,
   ApiResponse,
   PaginationResponse,
+  IdRequest,
 } from '@/common/dto';
 
 @Controller('branches')
@@ -54,8 +55,8 @@ export class BranchController {
 
   @Post('detail')
   @Permissions('branch:view')
-  async detail(@Body('id') id: number) {
-    const branch = await this.branchService.findOne(id);
+  async detail(@Body() dto: IdRequest) {
+    const branch = await this.branchService.findOne(dto.id);
     return ApiResponse.success(
       plainToInstance(BranchResponse, branch),
       'Branch detail retrieved successfully',
@@ -88,17 +89,17 @@ export class BranchController {
   @Post('soft-delete')
   @Permissions('branch:delete')
   async softDelete(
-    @Body('id') id: number,
+    @Body() dto: IdRequest,
     @CurrentUser('id') userId: number,
   ) {
-    await this.branchService.softDelete(id, userId);
+    await this.branchService.softDelete(dto.id, userId);
     return ApiResponse.success(null, 'Branch soft deleted successfully');
   }
 
   @Post('force-delete')
   @Permissions('branch:delete')
-  async forceDelete(@Body('id') id: number) {
-    await this.branchService.forceDelete(id);
+  async forceDelete(@Body() dto: IdRequest) {
+    await this.branchService.forceDelete(dto.id);
     return ApiResponse.success(null, 'Branch permanently deleted successfully');
   }
 }

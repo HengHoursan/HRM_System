@@ -13,6 +13,7 @@ import {
   PaginationRequest,
   ApiResponse,
   PaginationResponse,
+  IdRequest,
 } from '@/common/dto';
 
 @Controller('shifts')
@@ -54,8 +55,8 @@ export class ShiftController {
 
   @Post('detail')
   @Permissions('shift:view')
-  async detail(@Body('id') id: number) {
-    const shift = await this.shiftService.findOne(id);
+  async detail(@Body() dto: IdRequest) {
+    const shift = await this.shiftService.findOne(dto.id);
     return ApiResponse.success(
       plainToInstance(ShiftResponse, shift),
       'Shift detail retrieved successfully',
@@ -88,17 +89,17 @@ export class ShiftController {
   @Post('soft-delete')
   @Permissions('shift:delete')
   async softDelete(
-    @Body('id') id: number,
+    @Body() dto: IdRequest,
     @CurrentUser('id') userId: number,
   ) {
-    await this.shiftService.softDelete(id, userId);
+    await this.shiftService.softDelete(dto.id, userId);
     return ApiResponse.success(null, 'Shift soft deleted successfully');
   }
 
   @Post('force-delete')
   @Permissions('shift:delete')
-  async forceDelete(@Body('id') id: number) {
-    await this.shiftService.forceDelete(id);
+  async forceDelete(@Body() dto: IdRequest) {
+    await this.shiftService.forceDelete(dto.id);
     return ApiResponse.success(null, 'Shift permanently deleted successfully');
   }
 }

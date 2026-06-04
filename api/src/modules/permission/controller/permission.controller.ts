@@ -12,6 +12,7 @@ import {
   PaginationRequest,
   ApiResponse,
   PaginationResponse,
+  IdRequest,
 } from '@/common/dto';
 
 @Controller('permissions')
@@ -53,8 +54,8 @@ export class PermissionController {
 
   @Post('detail')
   @Permissions('permission:view')
-  async detail(@Body('id') id: number) {
-    const permission = await this.permissionService.findOne(id);
+  async detail(@Body() dto: IdRequest) {
+    const permission = await this.permissionService.findOne(dto.id);
     return ApiResponse.success(
       plainToInstance(PermissionResponse, permission),
       'Permission detail retrieved successfully',
@@ -74,17 +75,17 @@ export class PermissionController {
   @Post('soft-delete')
   @Permissions('permission:delete')
   async softDelete(
-    @Body('id') id: number,
+    @Body() dto: IdRequest,
     @CurrentUser('id') userId: number,
   ) {
-    await this.permissionService.softDelete(id, userId);
+    await this.permissionService.softDelete(dto.id, userId);
     return ApiResponse.success(null, 'Permission soft deleted successfully');
   }
 
   @Post('force-delete')
   @Permissions('permission:delete')
-  async forceDelete(@Body('id') id: number) {
-    await this.permissionService.forceDelete(id);
+  async forceDelete(@Body() dto: IdRequest) {
+    await this.permissionService.forceDelete(dto.id);
     return ApiResponse.success(null, 'Permission permanently deleted');
   }
 }
