@@ -1,41 +1,40 @@
-import { Exclude, Expose } from "class-transformer";
+import { Exclude, Expose } from 'class-transformer';
 
 @Exclude()
 export class BranchResponse {
-    @Expose()
-    id: number;
+  @Expose()
+  id: number;
 
-    @Expose()
-    name: string;
+  @Expose()
+  name: string;
 
-    @Expose()
-    address: string;
+  @Expose()
+  address: string;
 
-    @Expose()
-    phone: string;
+  @Expose()
+  phone: string;
 
-    @Expose()
-    email: string;
+  @Expose()
+  email: string;
 
-    @Expose()
-    status: boolean;
+  @Expose()
+  status: boolean;
 
-    @Expose()
-    createdAt: Date;
+  @Expose({ name: 'created_at' })
+  createdAt: Date;
 
-    @Expose()
-    updatedAt: Date;
+  @Expose({ name: 'updated_at' })
+  updatedAt: Date;
 
-    @Expose()
-    deletedAt: Date | null;
+  @Expose({ name: 'deleted_at' })
+  deletedAt: Date | null;
 
-    @Expose()
-    createdBy: number | null;
+  @Expose({ name: 'created_by' })
+  createdBy: number | null;
 
-    @Expose()
-    updatedBy: number | null;
+  @Expose({ name: 'updated_by' })
+  updatedBy: number | null;
 
-    @Expose()
-    deletedBy: number | null;
+  @Expose({ name: 'deleted_by' })
+  deletedBy: number | null;
 }
-    

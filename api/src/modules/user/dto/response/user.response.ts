@@ -1,5 +1,5 @@
 import { RoleResponse } from '@/role/dto';
-import { Expose, Exclude, Type, Transform } from 'class-transformer';
+import { Expose, Exclude, Type } from 'class-transformer';
 
 @Exclude()
 export class UserResponse {
@@ -22,8 +22,8 @@ export class UserResponse {
   @Expose()
   photo: string;
 
-  @Expose()
-  must_change_password: boolean;
+  @Expose({ name: 'must_change_password' })
+  mustChangePassword: boolean;
 
   @Expose()
   permissions: string[];

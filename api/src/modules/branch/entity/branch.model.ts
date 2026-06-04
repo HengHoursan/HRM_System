@@ -1,15 +1,22 @@
-import { BaseEntity } from "@/common/entity/base.entity";
-import { Column, Entity} from "typeorm";
+import { BaseEntity } from '@/common/entity/base.entity';
+import { Column, Entity } from 'typeorm';
 
 @Entity('branches')
 export class Branch extends BaseEntity {
-  @Column()
+  @Column({ type: 'varchar', unique: true, length: 100 })
   name: string;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 500,
+  })
   address: string;
 
-  @Column({ unique: true })
+  @Column({
+    type: 'varchar',
+    length: 15,
+    unique: true,
+  })
   phone: string;
 
   @Column({
@@ -18,6 +25,9 @@ export class Branch extends BaseEntity {
   })
   email?: string;
 
-  @Column({ default: true })
+  @Column({
+    type: 'boolean',
+    default: true,
+  })
   status: boolean;
 }

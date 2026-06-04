@@ -1,21 +1,24 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
-import { IdRequest } from "@/common/dto";
+import { IsEmail, IsOptional, IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
-export class UpdateBranchRequest extends IdRequest {
-    @IsOptional()
-    @IsString()
-    name?: string;
+export class UpdateBranchRequest {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
 
-    @IsOptional()
-    @IsString()
-    address?: string;
+  @IsOptional()
+  @IsString()
+  name?: string;
 
-    @IsOptional()
-    @IsString()
-    phone?: string;
+  @IsOptional()
+  @IsString()
+  address?: string;
 
-    @IsOptional()
-    @IsString()
-    @IsEmail()
-    email?: string;
+  @IsOptional()
+  @IsString()
+  phone?: string;
+
+  @IsOptional()
+  @IsString()
+  @IsEmail()
+  email?: string;
 }

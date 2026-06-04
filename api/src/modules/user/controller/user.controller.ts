@@ -15,7 +15,6 @@ import {
   PaginationRequest,
   ApiResponse,
   PaginationResponse,
-  IdRequest,
   BulkStatusUpdateRequest,
 } from '@/common/dto';
 
@@ -26,7 +25,6 @@ export class UserController {
   @Post('me')
   async me(@CurrentUser() currentUser: any) {
     const user = await this.userService.getProfile(currentUser.id);
-    // Attach permissions from the JWT strategy (already correctly resolved)
     const result = plainToInstance(UserResponse, user);
     (result as any).permissions = currentUser.permissions || [];
     return ApiResponse.success(result, 'User profile retrieved successfully');
@@ -58,8 +56,7 @@ export class UserController {
   @Post('list')
   @Permissions('user:view')
   async list(@Body() pagination: PaginationRequest) {
-    const [data, meta] =
-      await this.userService.findAllWithPagination(pagination);
+    const [data, meta] = await this.userService.findAllWithPagination(pagination);
     return ApiResponse.success(
       new PaginationResponse(plainToInstance(UserResponse, data), meta),
       'User list retrieved successfully',
@@ -68,8 +65,8 @@ export class UserController {
 
   @Post('detail')
   @Permissions('user:view')
-  async detail(@Body() dto: IdRequest) {
-    const user = await this.userService.findOne(dto.id);
+  async detail(@Body('id') id: number) {
+    const user = await this.userService.findOne(id);
     return ApiResponse.success(
       plainToInstance(UserResponse, user),
       'User detail retrieved successfully',
@@ -101,15 +98,18 @@ export class UserController {
 
   @Post('soft-delete')
   @Permissions('user:delete')
-  async softDelete(@Body() dto: IdRequest, @CurrentUser('id') userId: number) {
-    await this.userService.softDelete(dto.id, userId);
+  async softDelete(
+    @Body('id') id: number,
+    @CurrentUser('id') userId: number,
+  ) {
+    await this.userService.softDelete(id, userId);
     return ApiResponse.success(null, 'User soft deleted successfully');
   }
 
   @Post('force-delete')
   @Permissions('user:delete')
-  async forceDelete(@Body() dto: IdRequest) {
-    await this.userService.forceDelete(dto.id);
+  async forceDelete(@Body('id') id: number) {
+    await this.userService.forceDelete(id);
     return ApiResponse.success(null, 'User deleted successfully');
   }
 

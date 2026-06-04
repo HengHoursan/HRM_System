@@ -88,7 +88,7 @@ export class BranchService {
       }
     }
 
-    Object.assign(branch, request);
+    this.branchRepository.merge(branch, request);
     branch.updatedBy = currentUserId;
     return this.branchRepository.save(branch);
   }

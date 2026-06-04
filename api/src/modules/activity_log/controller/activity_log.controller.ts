@@ -1,7 +1,7 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { Permissions } from '@/common/security/decorator/permissions.decorator';
 import { CurrentUser } from '@/common/security/decorator/current_user.decorator';
-import { ApiResponse, IdRequest } from '@/common/dto';
+import { ApiResponse } from '@/common/dto';
 import { ActivityLogService } from '../service/activity_log.service';
 import { CreateActivityLogDto } from '../dto/request/create_activity_log.request';
 import { UpdateActivityLogDto } from '../dto/request/update_activity_log.request';
@@ -29,8 +29,8 @@ export class ActivityLogController {
 
   @Post('detail')
   @Permissions('activity_log:view')
-  async detail(@Body() dto: IdRequest) {
-    const result = await this.activityLogService.findOne(dto.id);
+  async detail(@Body('id') id: number) {
+    const result = await this.activityLogService.findOne(id);
     return ApiResponse.success(result, 'Activity log detail retrieved successfully');
   }
 
@@ -46,9 +46,8 @@ export class ActivityLogController {
 
   @Post('force-delete')
   @Permissions('activity_log:delete')
-  async forceDelete(@Body() dto: IdRequest) {
-    await this.activityLogService.remove(dto.id);
+  async forceDelete(@Body('id') id: number) {
+    await this.activityLogService.remove(id);
     return ApiResponse.success(null, 'Activity log deleted successfully');
   }
 }
-

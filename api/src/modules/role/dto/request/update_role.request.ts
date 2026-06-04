@@ -1,7 +1,9 @@
-import { IsOptional, IsString, IsNumber } from 'class-validator';
-import { IdRequest } from '@/common/dto';
+import { IsOptional, IsString, IsNumber, IsNotEmpty } from 'class-validator';
 
-export class UpdateRoleRequest extends IdRequest {
+export class UpdateRoleRequest {
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
 
   @IsOptional()
   @IsString()

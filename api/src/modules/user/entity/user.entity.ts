@@ -1,7 +1,5 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
-import {
-  BaseEntity,
-} from '../../../common/entity/base.entity';
+import { BaseEntity } from '../../../common/entity/base.entity';
 import { Role } from '../../role/entity/role.entity';
 
 @Entity('users')
@@ -26,5 +24,5 @@ export class User extends BaseEntity {
   photo: string;
 
   @Column({ name: 'must_change_password', default: false })
-  must_change_password: boolean;
+  mustChangePassword: boolean;
 }

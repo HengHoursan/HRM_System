@@ -1,9 +1,4 @@
-import { CreateBranchRequest } from "./request/create_branch.request";
-import { UpdateBranchRequest } from "./request/update_branch.request";
-import { BranchResponse } from "./response/branch.response";
-
-export {
-    CreateBranchRequest,
-    UpdateBranchRequest,
-    BranchResponse,
-}
+export * from './request/create_branch.request';
+export * from './request/update_branch.request';
+export * from './request/update_branch_status.request';
+export * from './response/branch.response';

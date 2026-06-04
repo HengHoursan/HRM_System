@@ -56,7 +56,7 @@ export class PermissionService {
     currentUserId: number | null = null,
   ): Promise<Permission> {
     const permission = await this.findOne(dto.id);
-    Object.assign(permission, dto);
+    this.permissionRepository.merge(permission, dto);
     permission.updatedBy = currentUserId;
     return this.permissionRepository.save(permission);
   }

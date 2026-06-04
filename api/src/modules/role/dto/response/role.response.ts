@@ -8,6 +8,6 @@ export class RoleResponse {
   @Expose()
   name: string;
 
-  @Expose()
+  @Expose({ name: 'display_name' })
   displayName: string;
 }

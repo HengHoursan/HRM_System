@@ -8,7 +8,6 @@ import {
   PaginationRequest,
   ApiResponse,
   PaginationResponse,
-  IdRequest,
 } from '@/common/dto';
 
 @Controller('roles')
@@ -41,8 +40,7 @@ export class RoleController {
   @Post('list')
   @Permissions('role:view')
   async list(@Body() pagination: PaginationRequest) {
-    const [data, meta] =
-      await this.roleService.findAllWithPagination(pagination);
+    const [data, meta] = await this.roleService.findAllWithPagination(pagination);
     return ApiResponse.success(
       new PaginationResponse(plainToInstance(RoleResponse, data), meta),
       'Role list retrieved successfully',
@@ -51,8 +49,8 @@ export class RoleController {
 
   @Post('detail')
   @Permissions('role:view')
-  async detail(@Body() dto: IdRequest) {
-    const role = await this.roleService.findOne(dto.id);
+  async detail(@Body('id') id: number) {
+    const role = await this.roleService.findOne(id);
     return ApiResponse.success(
       plainToInstance(RoleResponse, role),
       'Role detail retrieved successfully',
@@ -74,22 +72,28 @@ export class RoleController {
 
   @Post('soft-delete')
   @Permissions('role:delete')
-  async softDelete(@Body() dto: IdRequest, @CurrentUser('id') userId: number) {
-    await this.roleService.softDelete(dto.id, userId);
+  async softDelete(
+    @Body('id') id: number,
+    @CurrentUser('id') userId: number,
+  ) {
+    await this.roleService.softDelete(id, userId);
     return ApiResponse.success(null, 'Role soft deleted successfully');
   }
 
   @Post('force-delete')
   @Permissions('role:delete')
-  async forceDelete(@Body() dto: IdRequest) {
-    await this.roleService.forceDelete(dto.id);
+  async forceDelete(@Body('id') id: number) {
+    await this.roleService.forceDelete(id);
     return ApiResponse.success(null, 'Role deleted successfully');
   }
 
   @Post('duplicate')
   @Permissions('role:create')
-  async duplicate(@Body() dto: IdRequest, @CurrentUser('id') userId: number) {
-    const role = await this.roleService.duplicate(dto.id, userId);
+  async duplicate(
+    @Body('id') id: number,
+    @CurrentUser('id') userId: number,
+  ) {
+    const role = await this.roleService.duplicate(id, userId);
     return ApiResponse.success(
       plainToInstance(RoleResponse, role),
       'Role duplicated successfully',

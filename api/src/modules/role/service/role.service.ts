@@ -51,7 +51,7 @@ export class RoleService {
     currentUserId: number | null = null,
   ): Promise<Role> {
     const role = await this.findOne(dto.id);
-    Object.assign(role, dto);
+    this.roleRepository.merge(role, dto);
     role.updatedBy = currentUserId;
     return this.roleRepository.save(role);
   }
