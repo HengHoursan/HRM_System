@@ -8,6 +8,7 @@ export class ShiftRepository extends Repository<Shift> {
   constructor(private readonly dataSource: DataSource) {
     super(Shift, dataSource.createEntityManager());
   }
+
   async findWithPagination(
     pagination: PaginationRequest,
   ): Promise<[Shift[], number]> {
@@ -17,7 +18,8 @@ export class ShiftRepository extends Repository<Shift> {
     if (search) {
       query.andWhere(
         new Brackets((qb) => {
-          qb.where('shift.name LIKE :search', { search: `%${search}%` });
+          qb.where('shift.name LIKE :search', { search: `%${search}%` })
+            .orWhere('shift.code LIKE :search', { search: `%${search}%` });
         }),
       );
     }
@@ -32,12 +34,13 @@ export class ShiftRepository extends Repository<Shift> {
 
     return query.getManyAndCount();
   }
-  async toggleStatus(id: number, status: boolean): Promise<void> {
-    await this.update(id, { status });
+
+  async checkIfExists(name: string, code: string): Promise<Shift | null> {
+    return this.createQueryBuilder('shift')
+      .where('shift.name = :name OR shift.code = :code', { name, code })
+      .getOne();
   }
-  async checkIfExists(name: string): Promise<Shift | null> {
-    return this.findOne({ where: { name } });
-  }
+
   async findActiveShifts(): Promise<Shift[]> {
     return this.find({ where: { status: true } });
   }

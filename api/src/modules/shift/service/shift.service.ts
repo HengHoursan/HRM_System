@@ -20,9 +20,15 @@ export class ShiftService {
     request: CreateShiftRequest,
     currentUserId: number | null = null,
   ): Promise<Shift> {
-    const existingShift = await this.shiftRepository.checkIfExists(request.name);
-    if (existingShift) {
-      throw new ConflictException('Shift with this name already exists');
+    const existing = await this.shiftRepository.checkIfExists(
+      request.name,
+      request.code,
+    );
+    if (existing) {
+      if (existing.name === request.name) {
+        throw new ConflictException('Shift with this name already exists');
+      }
+      throw new ConflictException('Shift with this code already exists');
     }
     const shift = this.shiftRepository.create(request);
     shift.createdBy = currentUserId;
@@ -63,12 +69,20 @@ export class ShiftService {
     if (!existingShift) {
       throw new NotFoundException(`Shift with ID ${id} not found`);
     }
-    if (request.name) {
-      const duplicate = await this.shiftRepository.checkIfExists(request.name);
+
+    if (request.name || request.code) {
+      const duplicate = await this.shiftRepository.checkIfExists(
+        request.name ?? existingShift.name,
+        request.code ?? existingShift.code,
+      );
       if (duplicate && duplicate.id !== id) {
-        throw new ConflictException('Shift with this name already exists');
+        if (request.name && duplicate.name === request.name) {
+          throw new ConflictException('Shift with this name already exists');
+        }
+        throw new ConflictException('Shift with this code already exists');
       }
     }
+
     this.shiftRepository.merge(existingShift, request);
     existingShift.updatedBy = currentUser;
     return this.shiftRepository.save(existingShift);

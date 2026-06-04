@@ -8,6 +8,9 @@ export class ShiftResponse {
   @Expose()
   name: string;
 
+  @Expose()
+  code: string;
+
   @Expose({ name: 'start_time' })
   startTime: string;
 
@@ -16,6 +19,9 @@ export class ShiftResponse {
 
   @Expose({ name: 'break_minutes' })
   breakMinutes: number;
+
+  @Expose({ name: 'grace_period_minutes' })
+  gracePeriodMinutes: number;
 
   @Expose()
   status: boolean;

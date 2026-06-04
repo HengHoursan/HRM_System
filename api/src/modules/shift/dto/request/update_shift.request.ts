@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional, Min } from 'class-validator';
 
 export class UpdateShiftRequest {
   @IsNumber()
@@ -10,6 +10,11 @@ export class UpdateShiftRequest {
   @IsOptional()
   @IsString()
   name?: string;
+
+  @Expose()
+  @IsOptional()
+  @IsString()
+  code?: string;
 
   @Expose({ name: 'start_time' })
   @IsOptional()
@@ -24,5 +29,12 @@ export class UpdateShiftRequest {
   @Expose({ name: 'break_minutes' })
   @IsOptional()
   @IsNumber()
+  @Min(0)
   breakMinutes?: number;
+
+  @Expose({ name: 'grace_period_minutes' })
+  @IsOptional()
+  @IsNumber()
+  @Min(0)
+  gracePeriodMinutes?: number;
 }
