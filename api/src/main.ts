@@ -1,7 +1,8 @@
 import { AppModule } from './modules/app/app.module';
 import { setupSwagger } from './config/swagger.config';
 import { NestFactory, Reflector } from '@nestjs/core';
-import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor } from '@nestjs/common';
+import { ZodValidationPipe } from 'nestjs-zod';
 import { GlobalExceptionFilter } from './common/exception/global_exception.filter';
 import { LoggingInterceptor } from './common/interceptor/logging.interceptor';
 
@@ -16,13 +17,7 @@ async function bootstrap() {
   });
 
   app.setGlobalPrefix('v1/api');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
+  app.useGlobalPipes(new ZodValidationPipe());
 
   app.useGlobalFilters(new GlobalExceptionFilter());
   app.useGlobalInterceptors(

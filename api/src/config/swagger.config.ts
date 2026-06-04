@@ -1,5 +1,6 @@
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { INestApplication } from '@nestjs/common';
+import { cleanupOpenApiDoc } from 'nestjs-zod';
 
 export function setupSwagger(app: INestApplication): void {
   const config = new DocumentBuilder()
@@ -20,5 +21,5 @@ export function setupSwagger(app: INestApplication): void {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('v1/api/docs', app, document);
+  SwaggerModule.setup('v1/api/docs', app, cleanupOpenApiDoc(document));
 }

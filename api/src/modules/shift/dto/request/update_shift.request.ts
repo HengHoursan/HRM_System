@@ -1,40 +1,22 @@
-import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString, IsOptional, Min } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class UpdateShiftRequest {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
+const UpdateShiftSchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string().min(1).optional(),
+  code: z.string().min(1).optional(),
+  startTime: z.string().min(1).optional(),
+  endTime: z.string().min(1).optional(),
+  breakMinutes: z.number().int().min(0).optional(),
+  gracePeriodMinutes: z.number().int().min(0).optional(),
+}).refine(data => {
+  if (data.startTime && data.endTime) {
+    return data.startTime < data.endTime;
+  }
+  return true;
+}, {
+  message: 'startTime must be before endTime',
+  path: ['startTime'],
+});
 
-  @Expose()
-  @IsOptional()
-  @IsString()
-  name?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  code?: string;
-
-  @Expose({ name: 'start_time' })
-  @IsOptional()
-  @IsString()
-  startTime?: string;
-
-  @Expose({ name: 'end_time' })
-  @IsOptional()
-  @IsString()
-  endTime?: string;
-
-  @Expose({ name: 'break_minutes' })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  breakMinutes?: number;
-
-  @Expose({ name: 'grace_period_minutes' })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  gracePeriodMinutes?: number;
-}
+export class UpdateShiftRequest extends createZodDto(UpdateShiftSchema) {}

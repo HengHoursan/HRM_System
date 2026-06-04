@@ -77,4 +77,8 @@ export class UserRepository extends Repository<User> {
       order: { [sortBy]: sortOrder } as any,
     });
   }
+
+  async toggleStatus(id: number, status: boolean): Promise<void> {
+    await this.update(id, { status });
+  }
 }

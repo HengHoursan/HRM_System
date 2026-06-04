@@ -18,8 +18,8 @@ export class ShiftRepository extends Repository<Shift> {
     if (search) {
       query.andWhere(
         new Brackets((qb) => {
-          qb.where('shift.name LIKE :search', { search: `%${search}%` })
-            .orWhere('shift.code LIKE :search', { search: `%${search}%` });
+          qb.where('shift.name ILIKE :search', { search: `%${search}%` })
+            .orWhere('shift.code ILIKE :search', { search: `%${search}%` });
         }),
       );
     }
@@ -43,5 +43,9 @@ export class ShiftRepository extends Repository<Shift> {
 
   async findActiveShifts(): Promise<Shift[]> {
     return this.find({ where: { status: true } });
+  }
+
+  async toggleStatus(id: number, status: boolean): Promise<void> {
+    await this.update(id, { status });
   }
 }

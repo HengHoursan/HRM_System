@@ -1,12 +1,9 @@
-import { Expose } from 'class-transformer';
-import { IsBoolean, IsNumber, IsNotEmpty } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class UpdateShiftStatusRequest {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
+const UpdateShiftStatusSchema = z.object({
+  id: z.number().int().positive(),
+  status: z.boolean(),
+});
 
-  @Expose({ name: 'status' })
-  @IsBoolean()
-  status: boolean;
-}
+export class UpdateShiftStatusRequest extends createZodDto(UpdateShiftStatusSchema) {}

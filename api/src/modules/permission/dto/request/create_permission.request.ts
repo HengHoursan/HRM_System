@@ -1,24 +1,11 @@
-import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsString, IsOptional, IsNumber } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class CreatePermissionRequest {
-  @Expose()
-  @IsNotEmpty()
-  @IsString()
-  name: string;
+const CreatePermissionSchema = z.object({
+  name: z.string().min(1),
+  displayName: z.string().min(1),
+  group: z.string().optional(),
+  sort: z.number().int().optional(),
+});
 
-  @Expose({ name: 'display_name' })
-  @IsNotEmpty()
-  @IsString()
-  displayName: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  group?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsNumber()
-  sort?: number;
-}
+export class CreatePermissionRequest extends createZodDto(CreatePermissionSchema) {}

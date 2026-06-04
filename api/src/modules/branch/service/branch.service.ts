@@ -4,19 +4,19 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { BranchRepository } from '../repository/branch.respository';
-import {
-  CreateBranchRequest,
-  UpdateBranchRequest,
-} from '@/modules/branch/dto';
+import { CreateBranchRequest, UpdateBranchRequest } from '@/modules/branch/dto';
 import { PaginationRequest } from '@/common/dto';
-import { Branch } from '../entity/branch.model';
+import { Branch } from '../entity/branch.entity';
 import { PaginationMeta } from '@/common/dto/response/pagination.response';
 
 @Injectable()
 export class BranchService {
   constructor(private readonly branchRepository: BranchRepository) {}
 
-  async create(request: CreateBranchRequest, currentUserId: number | null = null): Promise<Branch> {
+  async create(
+    request: CreateBranchRequest,
+    currentUserId: number | null = null,
+  ): Promise<Branch> {
     const existingBranch = await this.branchRepository.checkIfExists(
       request.phone,
       request.email,
@@ -93,7 +93,11 @@ export class BranchService {
     return this.branchRepository.save(branch);
   }
 
-  async updateStatus(id: number, status: boolean, currentUserId: number | null = null): Promise<void> {
+  async updateStatus(
+    id: number,
+    status: boolean,
+    currentUserId: number | null = null,
+  ): Promise<void> {
     const branch = await this.branchRepository.findOne({ where: { id } });
     if (!branch) {
       throw new NotFoundException(`Branch with ID ${id} not found`);

@@ -46,4 +46,8 @@ export class RoleRepository extends Repository<Role> {
       order: { [sortBy]: sortOrder } as any,
     });
   }
+
+  async toggleStatus(id: number, status: boolean): Promise<void> {
+    await this.update(id, { status });
+  }
 }

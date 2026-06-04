@@ -1,35 +1,12 @@
-import { Expose } from 'class-transformer';
-import {
-  IsNotEmpty,
-  IsString,
-  IsEmail,
-  IsNumber,
-  IsOptional,
-} from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class CreateUserRequest {
-  @Expose()
-  @IsNotEmpty()
-  @IsString()
-  username: string;
+const CreateUserSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+  email: z.string().email(),
+  roleId: z.number().int().positive(),
+  photo: z.string().optional(),
+});
 
-  @Expose()
-  @IsNotEmpty()
-  @IsString()
-  password: string;
-
-  @Expose()
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
-
-  @Expose({ name: 'role_id' })
-  @IsNotEmpty()
-  @IsNumber()
-  roleId: number;
-
-  @Expose()
-  @IsString()
-  @IsOptional()
-  photo?: string;
-}
+export class CreateUserRequest extends createZodDto(CreateUserSchema) {}

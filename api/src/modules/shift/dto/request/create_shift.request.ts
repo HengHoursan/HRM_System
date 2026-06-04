@@ -1,36 +1,16 @@
-import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString, IsOptional, Min } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class CreateShiftRequest {
-  @Expose()
-  @IsNotEmpty()
-  @IsString()
-  name: string;
+const CreateShiftSchema = z.object({
+  name: z.string().min(1),
+  code: z.string().min(1),
+  startTime: z.string().min(1),
+  endTime: z.string().min(1),
+  breakMinutes: z.number().int().min(0),
+  gracePeriodMinutes: z.number().int().min(0).optional(),
+}).refine(data => data.startTime < data.endTime, {
+  message: 'startTime must be before endTime',
+  path: ['startTime'],
+});
 
-  @Expose()
-  @IsNotEmpty()
-  @IsString()
-  code: string;
-
-  @Expose({ name: 'start_time' })
-  @IsNotEmpty()
-  @IsString()
-  startTime: string;
-
-  @Expose({ name: 'end_time' })
-  @IsNotEmpty()
-  @IsString()
-  endTime: string;
-
-  @Expose({ name: 'break_minutes' })
-  @IsNotEmpty()
-  @IsNumber()
-  @Min(0)
-  breakMinutes: number;
-
-  @Expose({ name: 'grace_period_minutes' })
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  gracePeriodMinutes?: number;
-}
+export class CreateShiftRequest extends createZodDto(CreateShiftSchema) {}

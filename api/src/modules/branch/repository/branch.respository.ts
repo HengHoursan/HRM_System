@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository, Brackets } from 'typeorm';
-import { Branch } from '../entity/branch.model';
+import { Branch } from '../entity/branch.entity';
 import { PaginationRequest } from '@/common/dto';
 
 @Injectable()
@@ -17,10 +17,10 @@ export class BranchRepository extends Repository<Branch> {
     if (search) {
       query.andWhere(
         new Brackets((qb) => {
-          qb.where('branch.name LIKE :search', { search: `%${search}%` })
-            .orWhere('branch.address LIKE :search', { search: `%${search}%` })
-            .orWhere('branch.phone LIKE :search', { search: `%${search}%` })
-            .orWhere('branch.email LIKE :search', { search: `%${search}%` });
+          qb.where('branch.name ILIKE :search', { search: `%${search}%` })
+            .orWhere('branch.address ILIKE :search', { search: `%${search}%` })
+            .orWhere('branch.phone ILIKE :search', { search: `%${search}%` })
+            .orWhere('branch.email ILIKE :search', { search: `%${search}%` });
         }),
       );
     }
@@ -40,7 +40,10 @@ export class BranchRepository extends Repository<Branch> {
   }
 
   async checkIfExists(phone: string, email?: string): Promise<Branch | null> {
-    const query = this.createQueryBuilder('branch').where('branch.phone = :phone', { phone });
+    const query = this.createQueryBuilder('branch').where(
+      'branch.phone = :phone',
+      { phone },
+    );
 
     if (email) {
       query.orWhere('branch.email = :email', { email });

@@ -1,28 +1,16 @@
-import { Expose } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString, IsOptional, IsBoolean, IsDateString } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class UpdateHolidayRequest {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
+const UpdateHolidaySchema = z.object({
+  id: z.number().int().positive(),
+  name: z.string().min(1).optional(),
+  holidayDate: z.string().date().refine((val) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(val) >= today;
+  }, { message: 'holidayDate must be today or in the future' }).optional(),
+  description: z.string().optional(),
+  isPaid: z.boolean().optional(),
+});
 
-  @Expose()
-  @IsOptional()
-  @IsString()
-  name?: string;
-
-  @Expose({ name: 'holiday_date' })
-  @IsOptional()
-  @IsDateString()
-  holidayDate?: string;
-
-  @Expose()
-  @IsOptional()
-  @IsString()
-  description?: string;
-
-  @Expose({ name: 'is_paid' })
-  @IsOptional()
-  @IsBoolean()
-  isPaid?: boolean;
-}
+export class UpdateHolidayRequest extends createZodDto(UpdateHolidaySchema) {}

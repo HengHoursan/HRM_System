@@ -1,10 +1,9 @@
-import { IsBoolean, IsNumber, IsNotEmpty } from 'class-validator';
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class UpdateBranchStatusRequest {
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
+const UpdateBranchStatusSchema = z.object({
+  id: z.number().int().positive(),
+  status: z.boolean(),
+});
 
-  @IsBoolean()
-  status: boolean;
-}
+export class UpdateBranchStatusRequest extends createZodDto(UpdateBranchStatusSchema) {}

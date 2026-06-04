@@ -1,20 +1,11 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { z } from 'zod';
+import { createZodDto } from 'nestjs-zod';
 
-export class CreateBranchRequest {
-    @IsNotEmpty()
-    @IsString()
-    name: string;
+const CreateBranchSchema = z.object({
+  name: z.string().min(1),
+  address: z.string().min(1),
+  phone: z.string().min(1),
+  email: z.string().email().optional(),
+});
 
-    @IsNotEmpty()
-    @IsString()
-    address: string;
-
-    @IsNotEmpty()
-    @IsString()
-    phone: string;
-
-    @IsOptional()
-    @IsString()
-    @IsEmail()
-    email?: string;
-}
+export class CreateBranchRequest extends createZodDto(CreateBranchSchema) {}
