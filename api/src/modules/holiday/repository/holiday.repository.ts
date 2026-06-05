@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Brackets, DataSource, Repository, ILike } from 'typeorm';
+import { Brackets, DataSource, Repository, ILike, MoreThanOrEqual, Between } from 'typeorm';
 import { Holiday } from '../entity/holiday.entity';
 import { PaginationRequest } from '@/common/dto';
 
@@ -18,8 +18,11 @@ export class HolidayRepository extends Repository<Holiday> {
     if (search) {
       query.andWhere(
         new Brackets((qb) => {
-          qb.where('holiday.name ILIKE :search', { search: `%${search}%` })
-            .orWhere('holiday.description ILIKE :search', { search: `%${search}%` });
+          qb.where('holiday.name ILIKE :search', {
+            search: `%${search}%`,
+          }).orWhere('holiday.description ILIKE :search', {
+            search: `%${search}%`,
+          });
         }),
       );
     }
@@ -65,9 +68,55 @@ export class HolidayRepository extends Repository<Holiday> {
     return queryBuilder.getOne();
   }
 
+  async findById(id: number): Promise<Holiday | null> {
+    return this.findOne({ where: { id } as any });
+  }
+
+  async findByName(name: string): Promise<Holiday | null> {
+    return this.findOne({ where: { name } as any });
+  }
+
+  async findByDate(holidayDate: Date): Promise<Holiday | null> {
+    return this.findOne({ where: { holidayDate } as any });
+  }
+
+  async existsByName(name: string): Promise<boolean> {
+    return this.exists({ where: { name } });
+  }
+
+  async existsByDate(holidayDate: Date): Promise<boolean> {
+    return this.exists({ where: { holidayDate } });
+  }
+
   async findActiveHolidays(): Promise<Holiday[]> {
     return this.find({ where: { status: true } });
   }
+
+  async findUpcomingHolidays(): Promise<Holiday[]> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return this.find({
+      where: {
+        holidayDate: MoreThanOrEqual(today),
+        status: true,
+      } as any,
+      order: {
+        holidayDate: 'ASC',
+      } as any,
+    });
+  }
+
+  async findByDateRange(startDate: Date, endDate: Date): Promise<Holiday[]> {
+    return this.find({
+      where: {
+        holidayDate: Between(startDate, endDate),
+      } as any,
+      order: {
+        holidayDate: 'ASC',
+      } as any,
+    });
+  }
+
   async toggleStatus(id: number, status: boolean): Promise<void> {
     await this.update(id, { status });
   }

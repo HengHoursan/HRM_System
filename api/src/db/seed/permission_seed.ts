@@ -252,4 +252,37 @@ export const seedPermissions = async (dataSource: DataSource) => {
       sort: 5,
     },
   ]);
+  // Holiday Management
+  await seedPermissionsByGroup(dataSource, [
+    {
+      name: 'holiday:all',
+      displayName: 'All Holiday',
+      group: 'Holiday Management',
+      sort: 1,
+    },
+    {
+      name: 'holiday:view',
+      displayName: 'View Holidays',
+      group: 'Holiday Management',
+      sort: 2,
+    },
+    {
+      name: 'holiday:create',
+      displayName: 'Create Holidays',
+      group: 'Holiday Management',
+      sort: 3,
+    },
+    {
+      name: 'holiday:update',
+      displayName: 'Update Holidays',
+      group: 'Holiday Management',
+      sort: 4,
+    },
+    {
+      name: 'holiday:delete',
+      displayName: 'Delete Holidays',
+      group: 'Holiday Management',
+      sort: 5,
+    },
+  ]);
 };
