@@ -11,6 +11,7 @@ import { JwtModule } from '../jwt/jwt.module';
 import { TokenBlacklistModule } from '../token_blacklist/token_blacklist.module';
 import { UploadModule } from '../upload/upload.module';
 import { ShiftModule } from '@/shift/shift.module';
+import {HolidayModule} from '@/holiday/holiday.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ShiftModule } from '@/shift/shift.module';
     UploadModule,
     ActivityLogModule,
     BranchModule,
-    ShiftModule
+    ShiftModule,
+    HolidayModule,
   ],
   exports: [
     UserModule,
@@ -39,7 +41,8 @@ import { ShiftModule } from '@/shift/shift.module';
     UploadModule,
     ActivityLogModule,
     BranchModule,
-    ShiftModule
+    ShiftModule,
+    HolidayModule
   ],
 })
 export class CoreModule {}
